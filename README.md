@@ -1,7 +1,5 @@
-Gesualdo
-========
-A simple irc bot which detects youtube links and prints relative video title
-----------------------------------------------------------------------------
+# Gesualdo
+##### A simple irc bot which detects youtube links and prints relative video title
 
 - Supports utf-8 titles, so jappofags are happy
 - Prints colored titles
