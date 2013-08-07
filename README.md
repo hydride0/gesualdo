@@ -9,6 +9,6 @@ A simple irc bot which detects youtube links and prints relative video title
 
 It needs nokogiri and cinch:
 
-gem install nokogiri
-gem install cinch
-gem install cinch-login (Thanks to RoxasShadowRS)
+- gem install nokogiri
+- gem install cinch
+- gem install cinch-login (Thanks to RoxasShadowRS)
