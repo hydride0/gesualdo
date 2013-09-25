@@ -89,7 +89,7 @@ bot = Cinch::Bot.new do
   end
 
   on :message, /Gesualdo.*?/ do |m|
-    m.reply reply[rand(1..25)]
+    m.reply reply[rand(1..26)]
   end
 end
 bot.start
