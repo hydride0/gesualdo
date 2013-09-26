@@ -9,11 +9,11 @@ bot = Cinch::Bot.new do
     c.nick = 'Gesualdo'
     c.realname = c.nick
     c.user = c.nick
-    c.password = 'PAXX'
+    c.password = 'BOTSPASS'
     c.plugins.plugins = [Cinch::Plugins::Login]
-    c.plugins.options[Cinch::Plugins::Login] = { :password => 'PAXX' }
-    c.server = "irc.niggazwithattitu.de"
-    c.channels = ["#japanfags,#nwa"]
+    c.plugins.options[Cinch::Plugins::Login] = { :password => 'BOTSPASS' }
+    c.server = "YOURIRCSERVER"
+    c.channels = ["#YOUIRCCHAN"]
   end
 
   @poll = nil
@@ -61,11 +61,11 @@ bot = Cinch::Bot.new do
 
   on :message, /^!pstop$/ do |m|
     partic = @a_count + @b_count
-    if @poll != nil && (m.user.nick == 'Hydride' || m.user.nick == @poll_owner)
+    if @poll != nil && (m.user.nick == 'YOURNICKNAME' || m.user.nick == @poll_owner)
         m.reply 'Poll is ended'
         m.reply "#{partic} user(s) voted, #{@a_count} voted '#{@glob_a}' and #{@b_count} voted '#{@glob_b}'"
         @poll = nil
-    elsif m.user.nick != 'Hydride' || m.user.nick != @poll_owner
+    elsif m.user.nick != 'YOURNICKNAME' || m.user.nick != @poll_owner
         m.reply 'Command denied.'
     else
         m.reply 'No poll in progress'
@@ -81,7 +81,7 @@ bot = Cinch::Bot.new do
   end
 
   on :message, /^!qu1t$/ do |m|
-    if m.user.nick == 'Hydride'
+    if m.user.nick == 'YOURNICKNAME'
       bot.quit
     else
       m.reply 'GTFO && ESAD, bitch'
