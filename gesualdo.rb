@@ -9,28 +9,28 @@ bot = Cinch::Bot.new do
     c.nick = 'Gesualdo'
     c.realname = c.nick
     c.user = c.nick
-    c.password = 'BOTSPASS'
+    c.password = 'PASSWORD'
     c.plugins.plugins = [Cinch::Plugins::Login]
-    c.plugins.options[Cinch::Plugins::Login] = { :password => 'BOTSPASS' }
+    c.plugins.options[Cinch::Plugins::Login] = { :password => 'PASSWORD' }
     c.server = "YOURIRCSERVER"
-    c.channels = ["#YOUIRCCHAN"]
+    c.channels = ["#YOURIRCCHAN"]
   end
 
   @poll = nil
   @poll_owner = ''
   reply = [].tap { |ary| File.read('reply.txt').each_line { |line| ary << line } }
-  proverbio = [].tap { |ary| File.read('proverbi.txt').each_line { |line| ary << line } }
+  proverb = [].tap { |ary| File.read('proverbi.txt').each_line { |line| ary << line } }
 
   on :message, /http(s)?:\/\/(\S+)/ do |m, ssl, url|
      page = Nokogiri::HTML(open("http#{ssl}://#{url}").read, nil, 'utf-8')
      if url.include? ( 'youtube.com' || 'youtu.be' )
       m.reply Format(:lime,  page.css('//title').first.text.chomp(' - YouTube'))
      else
-       m.reply Format(:teal, page.css('//title').first.text)
+       m.reply Format(:pink, page.css('//title').first.text)
      end
    end
 
-  on :message, /^!poll ([^;]+);([^\/]+)\/(.+)$/ do  |m, topic, opt_a, opt_b|
+  on :message, /^!poll (.+);(.+)\/(.+)$/ do  |m, topic, opt_a, opt_b|
     if @poll != nil
       m.reply Format(:red, 'A poll is currently in progress')
     elsif @poll == nil && (opt_a.downcase != opt_b.downcase)
@@ -38,7 +38,7 @@ bot = Cinch::Bot.new do
       @poll_owner = m.user.nick
       @poll = 1
       @glob_a = opt_a
-      @gl_b = opt_b
+      @glob_b = opt_b
       @a_count = 0
       @b_count = 0
       @who_vote = []
@@ -47,7 +47,7 @@ bot = Cinch::Bot.new do
     end
   end
 
-  on :message, /^!pvote (\S+)$/ do |m, vote|
+  on :message, /^!pvote (.+)$/ do |m, vote|
     if vote == @glob_a && !@who_vote.include?(m.user.nick)
       @a_count += 1
       @who_vote <<  m.user.nick
@@ -61,11 +61,11 @@ bot = Cinch::Bot.new do
 
   on :message, /^!pstop$/ do |m|
     partic = @a_count + @b_count
-    if @poll != nil && (m.user.nick == 'YOURNICKNAME' || m.user.nick == @poll_owner)
+    if @poll != nil && (m.user.nick == 'BOTOWNER' || m.user.nick == @poll_owner)
         m.reply 'Poll is ended'
         m.reply "#{partic} user(s) voted, #{@a_count} voted '#{@glob_a}' and #{@b_count} voted '#{@glob_b}'"
         @poll = nil
-    elsif m.user.nick != 'YOURNICKNAME' || m.user.nick != @poll_owner
+    elsif m.user.nick != 'BOTOWNER' || m.user.nick != @poll_owner
         m.reply 'Command denied.'
     else
         m.reply 'No poll in progress'
@@ -73,7 +73,7 @@ bot = Cinch::Bot.new do
   end
 
   on :message, /^!prov$/ do |m|
-    m.reply proverbio[rand(1..369)]
+    m.reply proverb[rand(1..369)]
   end
 
   on :message, /^!phelp$/ do |m|
@@ -81,7 +81,7 @@ bot = Cinch::Bot.new do
   end
 
   on :message, /^!qu1t$/ do |m|
-    if m.user.nick == 'YOURNICKNAME'
+    if m.user.nick == 'BOTOWNER'
       bot.quit
     else
       m.reply 'GTFO && ESAD, bitch'
@@ -93,4 +93,3 @@ bot = Cinch::Bot.new do
   end
 end
 bot.start
-
