@@ -23,8 +23,8 @@ bot = Cinch::Bot.new do
 
   on :message, /http(s)?:\/\/(\S+)/ do |m, ssl, url|
      page = Nokogiri::HTML(open("http#{ssl}://#{url}").read, nil, 'utf-8')
-     if url.include? ( 'youtube.com' || 'youtu.be' )
-      m.reply Format(:lime,  page.css('//title').first.text.chomp(' - YouTube'))
+     if url.match('youtube.com|youtu.be') != nil
+       m.reply Format(:lime,  page.css('//title').first.text.chomp(' - YouTube'))
      else
        m.reply Format(:pink, page.css('//title').first.text)
      end
